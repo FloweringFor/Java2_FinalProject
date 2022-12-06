@@ -1,0 +1,4 @@
+create table developers(repo varchar(100), login varchar(100), id int, contribution int);
+create table issues(repo varchar(100), number int, state varchar(100), created_at Date, closed_at Date);
+create table commits(repo varchar(100),author varchar(100), commit_at Date);
+create table releases(repo varchar(100), tag_name varchar(100), prerelease varchar(100), published_at Date);
