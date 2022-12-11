@@ -85,6 +85,8 @@
             <button type="button" class="layui-btn layui-btn-sm layui-btn-radius" onclick="outport()"><i
                     class="layui-icon layui-icon-normal">&#xe64c;</i>导出 <!--lay-submit="" lay-filter="doOutPortExcel"-->
             </button>
+
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-lg" th:text="'number of contributions:'+${frontData}">默认按钮</button>
         </div>
         <div style="padding: 15px;">
             <!--TODO-->
@@ -169,7 +171,7 @@
 
     // ajax请求
     $.ajax({
-        url: "/query",
+        url: "/query/Developers1",
         dataType: "json",
         success: function (data) {
             for (let i in data){
