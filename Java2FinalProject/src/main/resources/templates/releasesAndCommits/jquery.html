@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layout 管理系统大布局 - Layui</title>
+    <script type="text/javascript" src="/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="/echarts/jquery-1.11.1.min.js"></script>
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">Menu</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!-- 移动端显示 -->
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+                <i class="layui-icon layui-icon-spread-left"></i>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="/developers/index">homepage</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a>go-sql-driver/mysql</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/developers/go">contributors</a></dd>
+                        <dd><a href="/issues/go">issues</a></dd>
+                        <dd><a href="/releasesAndCommits/go">releases and commits</a></dd>
+                        <dd><a href="/topics/go">topics</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a>jquery/jquery</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/developers/jquery">contributors</a></dd>
+                        <dd><a href="/issues/jquery">issues</a></dd>
+                        <dd><a href="/releasesAndCommits/jquery">releases and commits</a></dd>
+                        <dd><a href="/topics/jquery">topics</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a>square/picasso</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/developers/square">contributors</a></dd>
+                        <dd><a href="/issues/square">issues</a></dd>
+                        <dd><a href="/releasesAndCommits/square">releases and commits</a></dd>
+                        <dd><a href="/topics/square">topics</a></dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <div class="layui-bg-gray" style="padding: 30px;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md4">
+                    <div class="layui-panel">
+                        <div style="text-align: center;">
+                            <div id="container" style="text-align: center;height: 400px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md5">
+                    <div class="layui-panel">
+                        <div style="text-align: center;">
+                            <div id="container1" style="text-align: center;height: 400px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="layui-panel">
+                        <div style="text-align: center; height: 400px">
+                            <br>
+                            <div style="text-align: center;">
+                                <button type="button" style="font-size: 13px; width: 315px; height: 50px; background-color: darkorchid" class="layui-btn" th:text="'Number of Releases: '+${releasesCount}">默认按钮</button>
+                            </div>
+                            <br>
+                            <div style="text-align: center;">
+                                <button type="button" style="font-size: 13px; width: 315px; height: 50px" class="layui-btn layui-btn-warm" th:text="'Number of Commits: '+${commitsCount}">默认按钮</button>
+                            </div>
+
+                            <br>
+                            <div style="text-align: center;">
+                                <button type="button" style="font-size: 13px; width: 315px; height: 50px" class="layui-btn layui-btn-normal" th:text="'Update Time: '+${updateTime}">默认按钮</button>
+                            </div>
+                            <br>
+                            <div style="text-align: center;">
+                                <button type="button" style="font-size: 13px; width: 315px; height: 50px;background-color: lightpink" class="layui-btn layui-btn-sm layui-btn-radius" onclick="outportReleases()"><i
+                                        class="layui-icon layui-icon-normal">&#xe64c;</i>Exporting Complete Releases Data</button>
+                            </div>
+                            <br>
+                            <div style="text-align: center;">
+                                <button type="button" style="font-size: 13px; width: 315px; height: 50px;" class="layui-btn layui-btn-sm layui-btn-radius" onclick="outportCommits()"><i
+                                        class="layui-icon layui-icon-normal">&#xe64c;</i>Exporting Complete Commits Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="layui-col-md6">
+                    <div class="layui-panel">
+
+                        <div style="text-align: center;">
+                            <div id="container3" style="text-align: center;height: 350px"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md6">
+                    <div class="layui-panel">
+                        <div style="text-align: center;">
+                            <div id="container4" style="text-align: center;height: 350px"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+
+    });
+
+    function outportReleases(){
+        window.location.href = "/releasesAndCommits/excelReleases_jquery";
+    }
+
+    function outportCommits(){
+        window.location.href = "/releasesAndCommits/excelCommits_jquery";
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    var chartDom = document.getElementById('container');
+    var myChart = echarts.init(chartDom);
+    var option;
+    var dataList = [];
+
+    var colorList = [
+        '#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed',
+        '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0',
+        '#1e90ff', '#ff6347', '#7b68ee', '#d0648a', '#ffd700'
+    ];
+    var symbolSizeArr = [45, 50, 55, 60, 65, 70];
+    option = {
+        title: {
+            text: 'all releases published in jquery/jquery',
+            left: 'center',
+            fontSize: '20px'
+        },
+        tooltip: {},
+        xAxis: {
+            show: false,
+        },
+        yAxis: {
+            show: false,
+        },
+        toolbox: {
+            show: true,
+            orient: "vertical",
+            left: "right",
+            top: "center",
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true },
+            }
+        }
+    };
+
+
+    // ajax请求
+    $.ajax({
+        url: "/releasesAndCommits/releases_jquery",
+        dataType: "json",
+        success: function (data) {
+            for (let i in data){
+                dataList[i] = data[i];
+            }
+            myChart.setOption({
+                series: [{
+                    type: 'graph',
+                    layout: 'force',
+                    force: {
+                        repulsion: 150,
+                        edgeLength: 5
+                    },
+                    label: {
+                        show: true,
+                        formatter: [
+                            '{title|{c}}',
+                            '{name|{b}}'
+                        ].join('\n'),
+                        rich: {
+                            title: {
+                                fontSize: 14,
+                                color: '#fff',
+                                textAlign: 'center'
+                            },
+                            name: {
+                                fontSize: 14,
+                                color: '#fff',
+                                textAlign: 'center'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        color: function(params) {
+                            var a = params.dataIndex;
+                            return colorList[a];
+                        }
+                    },
+                    symbolSize: function(value, params) {
+                        return symbolSizeArr[params.dataIndex % 6];
+                    },
+                    //  "draggable": true,//设置是否可拖动
+                    data: dataList
+                }]
+            })
+        }
+    });
+
+    option && myChart.setOption(option);
+
+</script>
+
+<script type="text/javascript">
+    var chartDom1 = document.getElementById('container1');
+    var myChart1 = echarts.init(chartDom1);
+    var option1;
+    var xData = []
+    var yData = []
+
+    option1 = {
+        title: {
+            text: 'number of commits during each release',
+            left: 'center',
+            fontSize: '20px'
+        },
+        tooltip: {
+            trigger: "axis",
+            axisPointer: {
+                type: "shadow",
+                textStyle: {
+                    color: "#000000"
+                }
+
+            },
+        },
+        grid: {
+            borderWidth: 0,
+            top: 110,
+            bottom: 95,
+            textStyle: {
+                color: "#000000"
+            }
+        },
+        legend: {
+            x: '46%',
+            top: '11%',
+            textStyle: {
+                color: '#90979c',
+            },
+            data: ['count']
+        },
+
+
+        calculable: true,
+        xAxis: [{
+            type: "category",
+            axisLine: {
+                lineStyle: {
+                    color: "rgba(204,187,225,0.5)",
+                }
+            },
+            splitLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            // TODO
+            data: [],
+        }],
+
+        yAxis: [{
+            type: "value",
+            splitLine: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: "#000000",
+                }
+            },
+
+        }],
+        dataZoom: [{
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+
+            "start": 10,
+            "end": 80,
+            handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+            handleSize: '110%',
+            handleStyle: {
+                color: "#5B3AAE",
+            },
+            textStyle:{
+                color:"#000000",
+            },
+            fillerColor:"rgba(67,55,160,0.4)",
+            borderColor: "#000000",
+
+        }, {
+            type: "inside",
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
+        }],
+        toolbox: {
+            show: true,
+            orient: "vertical",
+            left: "right",
+            top: "center",
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true },
+            }
+        },
+        series: [{
+            name: "count",
+            type: "line",
+            symbolSize: 10,
+            symbol: 'circle',
+            itemStyle: {
+                color: "#c257F6",
+            },
+            markPoint: {
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                data: [{
+                    type: 'max',
+                    name: '最大值',
+
+                }, {
+                    type: 'min',
+                    name: '最小值'
+                }]
+            },
+            // TODO
+            data: []
+        }, ]
+    }
+
+
+    $.ajax({
+        url: "/releasesAndCommits/commits_jquery",
+        dataType: "json",
+        success: function (data) {
+            for (let i in data){
+                xData[i] = data[i].name;
+                yData[i] = data[i].value;
+            }
+            myChart1.setOption({
+                xAxis: [{
+                    type: "category",
+                    axisLine: {
+                        lineStyle: {
+                            color: "#000000",
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    // TODO
+                    data: xData,
+                }],
+                series: [{
+                    name: "count",
+                    type: "line",
+                    symbolSize: 10,
+                    symbol: 'circle',
+                    itemStyle: {
+                        color: "#c257F6",
+                    },
+                    markPoint: {
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    color: '#000000'
+                                }
+                            }
+                        },
+                        data: [{
+                            type: 'max',
+                            name: '最大值',
+
+                        }, {
+                            type: 'min',
+                            name: '最小值'
+                        }]
+                    },
+                    // TODO
+                    data: yData
+                }, ]
+            })
+        }
+    });
+
+    option1 && myChart1.setOption(option1);
+
+</script>
+
+<script type="text/javascript">
+    var chartDom3 = document.getElementById('container3');
+    var myChart3 = echarts.init(chartDom3);
+    var option3;
+
+    let dataList3 = []
+
+
+    option3 = {
+        title: {
+            text: 'number of commits for each weekday',
+            left: 'center',
+            fontSize: '20px'
+        },
+        color: ['#0C65F6', '#00D68A'],
+        tooltip: {
+            confine: true,
+        },
+        grid: {
+            left: '2%',
+            right: '4%',
+            bottom: '5%',
+            top: '30px',
+            containLabel: true,
+        },
+        legend: {
+            icon: 'rect',
+            orient: 'horizontal',
+            left: 'right',
+            itemWidth: 12,
+            itemHeight: 12,
+            formatter: ['{a|{name}}'].join('\n'),
+            textStyle: {
+                fontSize: 12,
+                color: '#6A93B9',
+                height: 8,
+                rich: {
+                    a: {
+                        verticalAlign: 'bottom',
+                    },
+                },
+            },
+        },
+        xAxis: {
+            type: 'category',
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,0.45)',
+                },
+            },
+            axisLabel: {
+                // interval:0,
+                fontSize: 12,
+                color: '#6A93B9',
+            },
+            axisTick: {
+                show: false,
+            },
+            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        },
+        yAxis: {
+            type: 'value',
+            min: 0,
+            minInterval: 1,
+            nameTextStyle: {
+                fontSize: 12,
+                color: '#BAE7FF',
+                align: 'center',
+            },
+            splitLine: {
+                lineStyle: {
+                    color: 'rgba(255, 255, 255, 0.15)',
+                    // type: 'dashed', // dotted 虚线
+                },
+            },
+            splitArea: { show: false },
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+            axisLabel: {
+                fontSize: 12,
+                fontFamily: 'Bebas',
+                color: '#6A93B9',
+            },
+        },
+        toolbox: {
+            show: true,
+            orient: "vertical",
+            left: "right",
+            top: "center",
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true },
+            }
+        },
+        series: [
+            {
+                type: 'line',
+                // showSymbol: false,
+                smooth: true,
+                name: 'the number of commits', // 图例对应类别
+                data: [], // 纵坐标数据
+                areaStyle: { // 区域颜色
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgba(12, 101, 246, 0.6)',
+                    }, {
+                        offset: 1,
+                        color: 'rgba(12, 101, 246, 0.1)',
+                    }]),
+                },
+            },
+        ],
+    };
+
+
+
+    $.ajax({
+        url: "/releasesAndCommits/weekday_jquery",
+        dataType: "json",
+        success: function (data) {
+            for (let i in data){
+                dataList3[i] = data[i].value;
+            }
+
+            myChart3.setOption({
+                series: [
+                    {
+                        type: 'line',
+                        // showSymbol: false,
+                        smooth: true,
+                        name: 'the number of commits', // 图例对应类别
+                        data: dataList3, // 纵坐标数据
+                        areaStyle: { // 区域颜色
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(12, 101, 246, 0.6)',
+                            }, {
+                                offset: 1,
+                                color: 'rgba(12, 101, 246, 0.1)',
+                            }]),
+                        },
+                    },
+                ],
+            })
+        }
+    });
+
+    option3 && myChart3.setOption(option3);
+
+</script>
+
+<script type="text/javascript">
+    var chartDom4 = document.getElementById('container4');
+    var myChart4 = echarts.init(chartDom4);
+    var option4;
+
+    let dataList4 = []
+
+    option4 = {
+        title: {
+            text: 'number of commits in different stages of a day',
+            left: 'center',
+            fontSize: '20px'
+        },
+        tooltip: {
+            confine: true,
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+            },
+            backgroundColor: 'rgba(3, 16, 42, 0.85)',
+            borderColor: 'rgba(114, 190, 253, 0.6)',
+            borderWidth: 1,
+            padding: 12,
+        },
+        grid: {
+            left: '5%',
+            top: '20%',
+            bottom: '15%',
+            right: '5%',
+        },
+        xAxis: {
+            axisTick: {
+                show: false,
+            },
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,0.45)',
+                    width: 1, // 这里是为了突出显示加上的
+                },
+            },
+            axisLabel: {
+                color: '#6A93B9',
+                fontSize: 12,
+            },
+            data: ["00:00~06:00", "06:01~12:00", "12:01~18:00", "18:01~23:59"],
+        },
+        yAxis: {
+            type: 'value',
+            name: '',
+            min: 0,
+            minInterval: 1,
+            nameTextStyle: {
+                align: 'center',
+            },
+            splitLine: {
+                lineStyle: {
+                    color: 'rgba(255, 255, 255, 0.15)',
+                    // type: 'dashed', // dotted 虚线
+                },
+            },
+            splitArea: { show: false },
+            axisLine: {
+                show: false,
+            },
+            axisTick: {
+                show: false,
+            },
+            axisLabel: {
+                fontSize: 12,
+                color: '#6A93B9',
+                fontFamily: 'Bebas',
+            },
+        },
+        toolbox: {
+            show: true,
+            orient: "vertical",
+            left: "right",
+            top: "center",
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true },
+            }
+        },
+        series: [{
+            name: 'hill',
+            type: 'pictorialBar',
+            barCategoryGap: '-20px',
+            symbol: 'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
+            label: {
+                show: true,
+                position: 'top',
+                distance: 5,
+                color: '#fff',
+                // fontWeight: 'bolder',
+                fontSize: 12,
+                fontFamily: 'Bebas',
+            },
+            itemStyle: {
+                normal: {
+                    color(params) {
+                        let colorList = ['pink', '#1EE7E7', 'yellow', '#2F54EB']
+                        return colorList[params.dataIndex]
+                    },
+                },
+                emphasis: {
+                    opacity: 1,
+                },
+            },
+            data: [],
+            z: 10,
+        }],
+    };
+
+
+
+    $.ajax({
+        url: "/releasesAndCommits/time_jquery",
+        dataType: "json",
+        success: function (data) {
+            for (let i in data){
+                dataList4[i] = data[i].value;
+            }
+            myChart4.setOption({
+                series: [{
+                    name: 'hill',
+                    type: 'pictorialBar',
+                    barCategoryGap: '-20px',
+                    symbol: 'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
+                    label: {
+                        show: true,
+                        position: 'top',
+                        distance: 5,
+                        color: '#fff',
+                        // fontWeight: 'bolder',
+                        fontSize: 12,
+                        fontFamily: 'Bebas',
+                    },
+                    itemStyle: {
+                        normal: {
+                            color(params) {
+                                let colorList = ['pink', '#1EE7E7', 'yellow', '#2F54EB']
+                                return colorList[params.dataIndex]
+                            },
+                        },
+                        emphasis: {
+                            opacity: 1,
+                        },
+                    },
+                    data: dataList4,
+                    z: 10,
+                }],
+            })
+        }
+    });
+
+    option4 && myChart4.setOption(option4);
+
+</script>
+
+</body>
+</html>
