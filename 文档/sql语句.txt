@@ -1,6 +1,0 @@
-create table developers(id int UNSIGNED AUTO_INCREMENT, repo varchar(100), login varchar(100), login_id int, contribution int, PRIMARY KEY (id));
-create table issues(id int UNSIGNED AUTO_INCREMENT, repo varchar(100), number int, state varchar(100), created_at Datetime, closed_at Datetime, PRIMARY KEY (id));
-create table commits(id int UNSIGNED AUTO_INCREMENT, repo varchar(100),author varchar(100), commit_at Datetime, PRIMARY KEY (id));
-create table releases(id int UNSIGNED AUTO_INCREMENT, repo varchar(100), tag_name varchar(100), prerelease varchar(100), published_at Datetime, PRIMARY KEY (id));
-create table records(id int UNSIGNED AUTO_INCREMENT, record_at Datetime, PRIMARY KEY (id));
-create table topics(id int UNSIGNED AUTO_INCREMENT, repo varchar(100), type varchar(100), content longtext, PRIMARY KEY (id));
