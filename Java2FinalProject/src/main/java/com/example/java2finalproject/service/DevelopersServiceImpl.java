@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DevelopersServiceImpl extends ServiceImpl<DevelopersMapper, Developers> implements DevelopersService{
+public class DevelopersServiceImpl extends ServiceImpl<DevelopersMapper, Developers> implements DevelopersService {
 
     @Autowired
     private DevelopersMapper developersMapper;
