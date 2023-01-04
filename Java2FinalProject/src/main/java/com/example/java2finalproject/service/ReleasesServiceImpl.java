@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReleasesServiceImpl extends ServiceImpl<ReleasesMapper, Releases> implements ReleasesService{
+public class ReleasesServiceImpl extends ServiceImpl<ReleasesMapper, Releases> implements ReleasesService {
 
     @Autowired
     private ReleasesMapper releasesMapper;
