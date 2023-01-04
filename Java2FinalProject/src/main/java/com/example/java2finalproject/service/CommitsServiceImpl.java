@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CommitsServiceImpl extends ServiceImpl<CommitsMapper, Commits> implements CommitsService{
+public class CommitsServiceImpl extends ServiceImpl<CommitsMapper, Commits> implements CommitsService {
 
     @Autowired
     private CommitsMapper commitsMapper;
