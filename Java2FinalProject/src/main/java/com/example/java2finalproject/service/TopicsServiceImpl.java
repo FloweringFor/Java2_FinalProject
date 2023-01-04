@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TopicsServiceImpl extends ServiceImpl<TopicsMapper, Topics> implements TopicsService{
+public class TopicsServiceImpl extends ServiceImpl<TopicsMapper, Topics> implements TopicsService {
     @Autowired
     private TopicsMapper topicsMapper;
 
