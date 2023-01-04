@@ -72,7 +72,7 @@ public class ReleasesAndCommitsController {
 
         } catch (Exception e) {
             model.addAttribute("releasesCount", releasesService.sum1());
-            model.addAttribute("commitsCount",commitsService.sum1());
+            model.addAttribute("commitsCount", commitsService.sum1());
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "releasesAndCommits/go";
@@ -109,7 +109,7 @@ public class ReleasesAndCommitsController {
 
         } catch (Exception e) {
             model.addAttribute("releasesCount", releasesService.sum2());
-            model.addAttribute("commitsCount",commitsService.sum2());
+            model.addAttribute("commitsCount", commitsService.sum2());
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "releasesAndCommits/jquery";
@@ -146,7 +146,7 @@ public class ReleasesAndCommitsController {
 
         } catch (Exception e) {
             model.addAttribute("releasesCount", releasesService.sum3());
-            model.addAttribute("commitsCount",commitsService.sum3());
+            model.addAttribute("commitsCount", commitsService.sum3());
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "releasesAndCommits/square";
@@ -176,7 +176,7 @@ public class ReleasesAndCommitsController {
     public List<FrontData> res(List<Releases> list) {
         List<FrontData> result = new ArrayList<>();
         int index = 0;
-        for (Releases r : list){
+        for (Releases r : list) {
             index++;
             result.add(new FrontData(r.getTagName(), index));
         }
@@ -214,7 +214,7 @@ public class ReleasesAndCommitsController {
         int[] countAll = new int[releases.size()+1];
         for (; i < commits.size(); i++) {
             if (index < releases.size()) {
-                if (commits.get(i).getCommitAt().getTime() < releases.get(index).getPublishedAt().getTime()){
+                if (commits.get(i).getCommitAt().getTime() < releases.get(index).getPublishedAt().getTime()) {
                     countAll[index]++;
                 } else {
                     index++;
@@ -224,12 +224,12 @@ public class ReleasesAndCommitsController {
                 break;
             }
         }
-        countAll[releases.size()] += commits.size()-i;
+        countAll[releases.size()] += commits.size() - i;
 
         frontDataList.add(new FrontData("before " + releases.get(0).getTagName(), countAll[0]));
 
         for (int j = 1; j < releases.size(); j++) {
-            frontDataList.add(new FrontData(releases.get(j-1).getTagName() + "~" + releases.get(j).getTagName(), countAll[j]));
+            frontDataList.add(new FrontData(releases.get(j - 1).getTagName() + "~" + releases.get(j).getTagName(), countAll[j]));
         }
 
         frontDataList.add(new FrontData("after" + releases.get(releases.size()-1).getTagName(), countAll[countAll.length-1]));
@@ -314,7 +314,7 @@ public class ReleasesAndCommitsController {
         // Fri Dec 09 11:51:20 CST 2022
         int[] countAll = new int[4];
         String[] time = {"00:00~06:00", "06:01~12:00", "12:01~18:00", "18:01~23:59"};
-        for (Commits c : commits){
+        for (Commits c : commits) {
             // System.out.println(c.getCommitAt() + " " + c.getCommitAt().toString().substring(11, 13));
             if (Integer.parseInt(c.getCommitAt().toString().substring(11, 13)) < 6) {
                 countAll[0]++;
@@ -371,7 +371,7 @@ public class ReleasesAndCommitsController {
         // 建立输出流，输出浏览器文件
         OutputStream os = null;
         response.setContentType("application/octet-stream;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=" + new String("data of releases".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("data of releases".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
         // 输出文件
         os = response.getOutputStream();
         wb.write(os);
@@ -417,12 +417,11 @@ public class ReleasesAndCommitsController {
         // 建立输出流，输出浏览器文件
         OutputStream os = null;
         response.setContentType("application/octet-stream;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=" + new String("data of commits".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("data of commits".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
         // 输出文件
         os = response.getOutputStream();
         wb.write(os);
         os.flush();
         os.close();
     }
-
 }
