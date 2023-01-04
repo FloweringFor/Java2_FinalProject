@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class KeywordsServiceImpl extends ServiceImpl<KeywordsMapper, Keywords> implements KeywordsService{
+public class KeywordsServiceImpl extends ServiceImpl<KeywordsMapper, Keywords> implements KeywordsService {
 
     @Autowired
     private KeywordsMapper keywordsMapper;
