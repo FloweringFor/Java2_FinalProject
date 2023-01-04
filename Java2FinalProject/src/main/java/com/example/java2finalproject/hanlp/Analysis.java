@@ -29,9 +29,9 @@ public class Analysis {
         List<Topics> topicsList = topicsService.listByRepo(repo);
         HashMap<String, Double> res = new HashMap<>();
         for (Topics topics : topicsList) {
-            List<String> title = HanLP.extractKeyword(topics.getTitle(),2);
+            List<String> title = HanLP.extractKeyword(topics.getTitle(), 2);
             for (String t : title) {
-                if (res.containsKey(t.toLowerCase())){
+                if (res.containsKey(t.toLowerCase())) {
                     res.put(t.toLowerCase(), res.get(t.toLowerCase()) + 0.35 * topics.getCommentCount());
                 } else {
                     res.put(t.toLowerCase(), 0.35 * topics.getCommentCount());
@@ -42,7 +42,8 @@ public class Analysis {
                 List<String> des = HanLP.extractKeyword(topics.getDescription(), size);
                 for (String d : des) {
                     if (res.containsKey(d.toLowerCase())) {
-                        res.put(d.toLowerCase(), res.get(d.toLowerCase()) + 0.3 * topics.getCommentCount() / size);
+                        res.put(d.toLowerCase(), 
+                                res.get(d.toLowerCase()) + 0.3 * topics.getCommentCount() / size);
                     } else {
                         res.put(d.toLowerCase(), 0.3 * topics.getCommentCount() / size);
                     }
