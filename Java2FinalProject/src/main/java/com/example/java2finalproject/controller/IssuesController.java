@@ -1,6 +1,5 @@
 package com.example.java2finalproject.controller;
 
-import com.example.java2finalproject.entity.Developers;
 import com.example.java2finalproject.entity.Issues;
 import com.example.java2finalproject.service.IssuesService;
 import com.example.java2finalproject.service.RecordsService;
@@ -14,15 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import redis.clients.jedis.Jedis;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +44,7 @@ public class IssuesController {
             if (jedis.get("average_go") != null && jedis.get("range_go") != null && jedis.get("variance_go") != null) {
                 model.addAttribute("average", jedis.get("average_go"));
                 model.addAttribute("range", jedis.get("range_go"));
-                model.addAttribute("variance",jedis.get("variance_go"));
+                model.addAttribute("variance", jedis.get("variance_go"));
             } else {
                 List<Long> list = issuesService.listDay1();
                 long average = until_average(list);
@@ -56,10 +52,10 @@ public class IssuesController {
                 long variance = until_variance(average, list);
                 model.addAttribute("average", average);
                 model.addAttribute("range", range);
-                model.addAttribute("variance",variance);
+                model.addAttribute("variance", variance);
                 jedis.set("average_go", String.valueOf(average));
-                jedis.set("range_go",String.valueOf(range));
-                jedis.set("variance_go",String.valueOf(variance));
+                jedis.set("range_go", String.valueOf(range));
+                jedis.set("variance_go", String.valueOf(variance));
             }
 
             if (jedis.get("updateTime") != null) {
@@ -77,7 +73,7 @@ public class IssuesController {
             long variance = until_variance(average, list);
             model.addAttribute("average", average);
             model.addAttribute("range", range);
-            model.addAttribute("variance",variance);
+            model.addAttribute("variance", variance);
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "issues/go";
@@ -90,7 +86,7 @@ public class IssuesController {
             if (jedis.get("average_jquery") != null && jedis.get("range_jquery") != null && jedis.get("variance_jquery") != null) {
                 model.addAttribute("average", jedis.get("average_jquery"));
                 model.addAttribute("range", jedis.get("range_jquery"));
-                model.addAttribute("variance",jedis.get("variance_jquery"));
+                model.addAttribute("variance", jedis.get("variance_jquery"));
             } else {
                 List<Long> list = issuesService.listDay2();
                 long average = until_average(list);
@@ -98,10 +94,10 @@ public class IssuesController {
                 long variance = until_variance(average, list);
                 model.addAttribute("average", average);
                 model.addAttribute("range", range);
-                model.addAttribute("variance",variance);
+                model.addAttribute("variance", variance);
                 jedis.set("average_jquery", String.valueOf(average));
-                jedis.set("range_jquery",String.valueOf(range));
-                jedis.set("variance_jquery",String.valueOf(variance));
+                jedis.set("range_jquery", String.valueOf(range));
+                jedis.set("variance_jquery", String.valueOf(variance));
             }
 
             if (jedis.get("updateTime") != null) {
@@ -112,14 +108,14 @@ public class IssuesController {
                 jedis.set("updateTime", date.toString());
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             List<Long> list = issuesService.listDay2();
             long average = until_average(list);
             long range = until_range(list);
             long variance = until_variance(average, list);
             model.addAttribute("average", average);
             model.addAttribute("range", range);
-            model.addAttribute("variance",variance);
+            model.addAttribute("variance", variance);
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "issues/jquery";
@@ -128,12 +124,12 @@ public class IssuesController {
 
     @RequestMapping("/square")
     public String square(Model model) throws ParseException {
-        try{
+        try {
             jedis.ping();
             if (jedis.get("average_square") != null && jedis.get("range_square") != null && jedis.get("variance_square") != null) {
                 model.addAttribute("average", jedis.get("average_square"));
                 model.addAttribute("range", jedis.get("range_square"));
-                model.addAttribute("variance",jedis.get("variance_square"));
+                model.addAttribute("variance", jedis.get("variance_square"));
             } else {
                 List<Long> list = issuesService.listDay3();
                 long average = until_average(list);
@@ -141,10 +137,10 @@ public class IssuesController {
                 long variance = until_variance(average, list);
                 model.addAttribute("average", average);
                 model.addAttribute("range", range);
-                model.addAttribute("variance",variance);
+                model.addAttribute("variance", variance);
                 jedis.set("average_square", String.valueOf(average));
-                jedis.set("range_square",String.valueOf(range));
-                jedis.set("variance_square",String.valueOf(variance));
+                jedis.set("range_square", String.valueOf(range));
+                jedis.set("variance_square", String.valueOf(variance));
             }
 
             if (jedis.get("updateTime") != null) {
@@ -162,7 +158,7 @@ public class IssuesController {
             long variance = until_variance(average, list);
             model.addAttribute("average", average);
             model.addAttribute("range", range);
-            model.addAttribute("variance",variance);
+            model.addAttribute("variance", variance);
             model.addAttribute("updateTime", recordsService.getUpdateTime());
         }
         return "issues/square";
@@ -179,7 +175,7 @@ public class IssuesController {
                 open = Integer.parseInt(jedis.get("open_go"));
             } else {
                 open = issuesService.countOpen1();
-                jedis.set("open_go",String.valueOf(open));
+                jedis.set("open_go", String.valueOf(open));
             }
 
             if (jedis.get("closed_go") != null) {
@@ -209,7 +205,7 @@ public class IssuesController {
                 open = Integer.parseInt(jedis.get("open_jquery"));
             } else {
                 open = issuesService.countOpen2();
-                jedis.set("open_jquery",String.valueOf(open));
+                jedis.set("open_jquery", String.valueOf(open));
             }
 
             if (jedis.get("closed_jquery") != null) {
@@ -239,7 +235,7 @@ public class IssuesController {
                 open = Integer.parseInt(jedis.get("open_square"));
             } else {
                 open = issuesService.countOpen3();
-                jedis.set("open_square",String.valueOf(open));
+                jedis.set("open_square", String.valueOf(open));
             }
 
             if (jedis.get("closed_square") != null) {
@@ -303,32 +299,32 @@ public class IssuesController {
 
     public long until_average(List<Long> dates) {
         long result = 0;
-        for(long l : dates) {
+        for (long l : dates) {
             result += l;
         }
-        return (result/dates.size());
+        return (result / dates.size());
     }
 
     public long until_range(List<Long> dates) {
         long min = Long.MAX_VALUE;
         long max = -1;
-        for(long l : dates) {
+        for (long l : dates) {
             if (l < min) {
                 min = l;
             }
-            if(l > max) {
+            if (l > max) {
                 max = l;
             }
         }
-        return (max-min);
+        return (max - min);
     }
 
     public long until_variance(Long average, List<Long> dates) {
         long result = 0;
         for (Long l : dates) {
-            result += (l-average)*(l-average);
+            result += (l - average) * (l - average);
         }
-        return result/dates.size();
+        return result / dates.size();
     }
 
 
@@ -365,7 +361,7 @@ public class IssuesController {
         hssfRow.createCell(3).setCellValue("closed_at");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Issues data : list) {
-            HSSFRow dataRow = sheet.createRow(sheet.getLastRowNum()+1);
+            HSSFRow dataRow = sheet.createRow(sheet.getLastRowNum() + 1);
             dataRow.createCell(0).setCellValue(data.getNumber());
             dataRow.createCell(1).setCellValue(data.getState());
             dataRow.createCell(2).setCellValue(format.format(data.getCreatedAt()));
@@ -378,7 +374,7 @@ public class IssuesController {
         // 建立输出流，输出浏览器文件
         OutputStream os = null;
         response.setContentType("application/octet-stream;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=" + new String("data of issues".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
+        response.setHeader("Content-Disposition", "attachment;filename=" + new String("data of issues".getBytes(), StandardCharsets.ISO_8859_1) + ".xls");
         // 输出文件
         os = response.getOutputStream();
         wb.write(os);
